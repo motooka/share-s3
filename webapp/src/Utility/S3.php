@@ -20,7 +20,7 @@ class S3
     public static function listDirectoryWithCache(string $s3ObjPrefix): array | null
     {
         Log::debug("listDirectoryWithCache s3ObjPrefix=$s3ObjPrefix start");
-        $cacheKey = self::CACHE_KEY_PREFIX . self::_convertCacheKey($s3ObjPrefix);
+        $cacheKey = self::CACHE_KEY_PREFIX . $s3ObjPrefix;
         $cachedResult = Cache::read($cacheKey);
 
         if(is_array($cachedResult)) {
@@ -134,10 +134,5 @@ class S3
 
             return new RejectedPromise(new CredentialsException('There is no keys configured for AWS S3'));
         };
-    }
-
-    private static function _convertCacheKey(string $key): string
-    {
-        return str_replace('/', '$$', $key);
     }
 }
