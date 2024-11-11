@@ -168,7 +168,15 @@ return [
      */
     'Error' => [
         'errorLevel' => E_ALL,
-        'skipLog' => [],
+        'skipLog' => [
+            \Cake\Controller\Exception\MissingActionException::class,
+            \Cake\Datasource\Exception\MissingDatasourceException::class,
+            \Cake\View\Exception\MissingTemplateException::class,
+            \Cake\Http\Exception\MissingControllerException::class,
+            \Cake\Http\Exception\NotFoundException::class,
+            \Cake\Http\Exception\ForbiddenException::class,
+            \Cake\Routing\Exception\MissingRouteException::class,
+        ],
         'log' => true,
         'trace' => true,
         'ignoredDeprecationPaths' => [],

@@ -53,7 +53,10 @@ class S3
             'Prefix' => $s3ObjPrefix,
             'Delimiter' => '/',
         ]);
-        Log::debug("listDirectory s3ObjPrefix=$s3ObjPrefix result\n" . print_r($callResult, true));
+
+        if(Configure::read('debug')) {
+            Log::debug("listDirectory s3ObjPrefix=$s3ObjPrefix result\n" . print_r($callResult, true));
+        }
 
         // see format here : https://docs.aws.amazon.com/aws-sdk-php/v3/api/api-s3-2006-03-01.html#listobjectsv2
         return $callResult->toArray();
