@@ -21,15 +21,34 @@ function humanReadableBytes(int $bytes): string {
 
 ?>
 <div>
+    <nav>
+        <?php
+        $paths = explode('/', $prefix);
+        $accumulation = '';
+        echo $this->Html->link('root directory', '/index/');
+
+        foreach($paths as $path) {
+            $accumulation .= $path . '/';
+            echo ' / ';
+            if($accumulation === $prefix) {
+                echo h($path);
+            }
+            else {
+                echo $this->Html->link($path, '/'.$accumulation);
+            }
+        }
+        ?>
+    </nav>
     <h2>Objects of <?= h(empty($prefix) ? 'root directory' : $prefix) ?></h2>
     <ul>
         <?php
         $isEmpty = true;
         if(!empty($result['CommonPrefixes'])) {
             foreach($result['CommonPrefixes'] as $prefixObj) {
-                $subPrefix = $prefixObj['Prefix'];
+                $childFullPrefix = $prefixObj['Prefix'];
+                $dirName = mb_ereg_replace('.*/', '', mb_substr($childFullPrefix, 0, mb_strlen($childFullPrefix)-1));
                 echo '<li>';
-                echo $this->Html->link($subPrefix, '/index/'.$subPrefix.'/');
+                echo $this->Html->link($dirName, '/index/'.$childFullPrefix.'/');
                 echo '</li>';
                 $isEmpty = false;
             }

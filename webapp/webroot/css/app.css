@@ -1,0 +1,14 @@
+nav {
+    margin: 0.1em 0 1em 0;
+}
+
+footer {
+    border-top: 1px solid #808080;
+    padding: 1em;
+    ul {
+        list-style: none;
+        width: fit-content;
+        margin: 0 auto;
+    }
+}
+
