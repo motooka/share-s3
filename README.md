@@ -1,5 +1,5 @@
 # ShareS3
-Share your files on Amazon S3 (or compatible one) to clients
+Share your files on Amazon S3 (or compatible one) with clients
 
 ## Dependencies
 - PHP 8.1+
