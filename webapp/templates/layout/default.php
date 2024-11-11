@@ -1,29 +1,18 @@
 <?php
 /**
- * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
- * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
- *
- * Licensed under The MIT License
- * For full copyright and license information, please see the LICENSE.txt
- * Redistributions of files must retain the above copyright notice.
- *
- * @copyright     Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
- * @link          https://cakephp.org CakePHP(tm) Project
- * @since         0.10.0
- * @license       https://opensource.org/licenses/mit-license.php MIT License
  * @var \App\View\AppView $this
  */
 
-$cakeDescription = 'CakePHP: the rapid development php framework';
+use Cake\Core\Configure;
+
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <?= $this->Html->charset() ?>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>
-        <?= $cakeDescription ?>:
-        <?= $this->fetch('title') ?>
+        Share S3
     </title>
     <?= $this->Html->meta('icon') ?>
 
@@ -36,11 +25,9 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
 <body>
     <nav class="top-nav">
         <div class="top-nav-title">
-            <a href="<?= $this->Url->build('/') ?>"><span>Cake</span>PHP</a>
+            <a href="<?= $this->Url->build('/') ?>">Share S3</a>
         </div>
         <div class="top-nav-links">
-            <a target="_blank" rel="noopener" href="https://book.cakephp.org/5/">Documentation</a>
-            <a target="_blank" rel="noopener" href="https://api.cakephp.org/">API</a>
         </div>
     </nav>
     <main class="main">
@@ -50,6 +37,23 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
         </div>
     </main>
     <footer>
+        <ul>
+            <li>
+                Contents(files) are managed by
+                <?php
+                $siteOwnerName = Configure::read('site_owner_name');
+                if(empty($siteOwnerName)) {
+                    echo 'the owner of this site';
+                }
+                else {
+                    echo h($siteOwnerName);
+                }
+                ?>
+            </li>
+            <li>Application : Copyright &copy; T.MOTOOKA</li>
+            <li>Source Code of the Application : <a href="https://github.com/motooka/share-s3" target="_blank" rel="noopener">available on GitHub</a></li>
+            <li>Powered by <a href="https://cakephp.org/" target="_blank" rel="noopener noreferrer">CakePHP</a></li>
+        </ul>
     </footer>
 </body>
 </html>

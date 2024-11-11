@@ -1,5 +1,6 @@
 <?php
 return [
+    'site_owner_name' => '', // this appears in the footer. If you keep this blank, the site will say "Contents(files) are managed by owner of this site"
     'debug' => filter_var(env('DEBUG', false), FILTER_VALIDATE_BOOLEAN),
     'Security' => [
         'salt' => env('SECURITY_SALT', '__SALT__'),
