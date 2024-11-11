@@ -1,6 +1,6 @@
 FROM ubuntu:22.04
 
-RUN DEBIAN_FRONTEND=noninteractive
+ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update
 RUN apt-get upgrade -y
@@ -19,7 +19,7 @@ RUN apt-get install -y vim less ca-certificates
 
 
 # composer
-ENV COMPOSER_ALLOW_SUPERUSER 1
+ENV COMPOSER_ALLOW_SUPERUSER=1
 COPY composer_install.sh /
 RUN chmod 755 /composer_install.sh
 
