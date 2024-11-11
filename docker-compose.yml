@@ -1,0 +1,13 @@
+version: '3'
+services:
+  web:
+    build: ./docker/web
+    environment:
+      DEBIAN_FRONTEND: "noninteractive"
+      TZ: "Asia/Tokyo"
+    ports:
+     - "8080:80"
+    volumes:
+     - .:/repository
+    tty: true
+
