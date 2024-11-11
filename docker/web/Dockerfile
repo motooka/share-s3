@@ -29,7 +29,7 @@ RUN cd /etc/apache2/mods-enabled; ln -s ../mods-available/rewrite.load ./
 
 # document root
 RUN rm -rf /var/www/html
-RUN cd /var/www; ln -s /repository ./html
+RUN cd /var/www; ln -s /repository/webapp ./html
 
 
 # the process
