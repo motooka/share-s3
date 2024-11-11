@@ -149,7 +149,7 @@ if (!$fullBaseUrl) {
      *
      * See also https://book.cakephp.org/5/en/controllers/request-response.html#trusting-proxy-headers
      */
-    $trustProxy = false;
+    $trustProxy = !empty(Configure::read('trustProxy'));
 
     $s = null;
     if (env('HTTPS') || ($trustProxy && env('HTTP_X_FORWARDED_PROTO') === 'https')) {
