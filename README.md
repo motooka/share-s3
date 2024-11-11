@@ -35,8 +35,12 @@ Share your files on Amazon S3 (or compatible one) to clients
 - `GetObject` permission to any object on the target bucket
 
 ## Limits
-If a "directory" contains 1,000 or more objects, they won't be listed.
-You WILL NOT be able to configure this threshold even on the future versions of this app : because you SHOULD use CLIs or programs to deal with such use-cases.
+- If a "directory" contains 1,000 or more objects, they won't be listed. You WILL NOT be able to configure this threshold even on the future versions of this app : because you SHOULD use CLIs or programs to deal with such use-cases.
+- If your "directory" name ends with `..`, accesses will be blocked by security reasons. This also will not be changed in the future.
+- If your object key contains `"`, some features including downloads won't work.
 
 ## License
 MIT License. see [LICENSE](./LICENSE) for more details
+
+## Other Notes
+- `DebugKit` (official CakePHP plugin) doesn't work if no datasource exists, at this point. So, this app disables the plugin.

@@ -94,7 +94,7 @@ return [
     'Cache' => [
         'default' => [
             'className' => FileEngine::class,
-            'path' => CACHE,
+            'path' => CACHE . 'app_default_cache',
             'url' => env('CACHE_DEFAULT_URL', null),
         ],
 

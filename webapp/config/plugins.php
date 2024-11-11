@@ -28,7 +28,7 @@
   * - optional: Do not throw an exception if the plugin is not found. Default false.
   */
 return [
-    'DebugKit' => ['onlyDebug' => true],
+    //'DebugKit' => ['onlyDebug' => true], DebugKit DOES NOT work if no DataSource configuration exists
     'Bake' => ['onlyCli' => true, 'optional' => true],
     'Migrations' => ['onlyCli' => true],
 

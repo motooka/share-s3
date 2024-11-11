@@ -7,29 +7,56 @@ use Aws\Credentials\CredentialProvider;
 use Aws\Credentials\Credentials;
 use Aws\Exception\CredentialsException;
 use Aws\S3\S3Client;
+use Cake\Cache\Cache;
 use Cake\Core\Configure;
+use Cake\Log\Log;
 use GuzzleHttp\Promise;
 use GuzzleHttp\Promise\RejectedPromise;
 
 class S3
 {
-    public static function listDirectory(string $s3ObjPrefix, bool &$isTruncated): array | null
+    const CACHE_KEY_PREFIX = 'list_of_';
+
+    public static function listDirectoryWithCache(string $s3ObjPrefix): array | null
+    {
+        Log::debug("listDirectoryWithCache s3ObjPrefix=$s3ObjPrefix start");
+        $cacheKey = self::CACHE_KEY_PREFIX . self::_convertCacheKey($s3ObjPrefix);
+        $cachedResult = Cache::read($cacheKey);
+
+        if(is_array($cachedResult)) {
+            Log::debug("listDirectoryWithCache s3ObjPrefix=$s3ObjPrefix cache hit");
+            return $cachedResult;
+        }
+        Log::debug("listDirectoryWithCache s3ObjPrefix=$s3ObjPrefix cache miss");
+
+        $result = self::listDirectory($s3ObjPrefix);
+        Cache::write($cacheKey, $result);
+        return $result;
+    }
+
+    public static function listDirectory(string $s3ObjPrefix): array | null
     {
         $client = self::_getClient();
         $bucketName = self::_getBucketName();
 
-        if(!$client->doesObjectExistV2($bucketName, $s3ObjPrefix)) {
-            return null;
+//        if(!$client->doesObjectExistV2($bucketName, $s3ObjPrefix)) {
+//            Log::debug("listDirectoryWithCache s3ObjPrefix=$s3ObjPrefix object does not exist");
+//            return null;
+//        }
+
+        if(str_starts_with($s3ObjPrefix, '/')) {
+            $s3ObjPrefix = substr($s3ObjPrefix, 1);
         }
 
         $callResult = $client->listObjectsV2([
             'Bucket' => $bucketName,
             'Prefix' => $s3ObjPrefix,
+            'Delimiter' => '/',
         ]);
-        $isTruncated = $callResult['IsTruncated'];
+        Log::debug("listDirectory s3ObjPrefix=$s3ObjPrefix result\n" . print_r($callResult, true));
 
         // see format here : https://docs.aws.amazon.com/aws-sdk-php/v3/api/api-s3-2006-03-01.html#listobjectsv2
-        return $callResult['Contents'];
+        return $callResult->toArray();
     }
 
     public static function presignedUrlForDownload(string $s3ObjKey): string | null
@@ -47,11 +74,14 @@ class S3
         }
         $filename = str_replace('"', '', $filename);
 
+        $contentDispositionFilename = urlencode($filename);
+        $contentDispositionFilename = str_replace('+', '%20', $contentDispositionFilename);
+
         // see https://docs.aws.amazon.com/sdk-for-php/v3/developer-guide/s3-presigned-url.html
         $command = $client->getCommand('GetObject', [
             'Bucket' => $bucketName,
             'Key' => $s3ObjKey,
-            'ResponseContentDisposition' => 'attachment; filename="'.$filename.'"',
+            'ResponseContentDisposition' => 'attachment; filename="'.$contentDispositionFilename.'"',
         ]);
         $request = $client->createPresignedRequest($command, '+5minutes');
         return $request->getUri()->__toString();
@@ -106,4 +136,8 @@ class S3
         };
     }
 
+    private static function _convertCacheKey(string $key): string
+    {
+        return str_replace('/', '$$', $key);
+    }
 }
