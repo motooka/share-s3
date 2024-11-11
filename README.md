@@ -34,5 +34,9 @@ Share your files on Amazon S3 (or compatible one) to clients
 - `ListBucket` permission to the target bucket
 - `GetObject` permission to any object on the target bucket
 
+## Limits
+If a "directory" contains 1,000 or more objects, they won't be listed.
+You WILL NOT be able to configure this threshold even on the future versions of this app : because you SHOULD use CLIs or programs to deal with such use-cases.
+
 ## License
 MIT License. see [LICENSE](./LICENSE) for more details
