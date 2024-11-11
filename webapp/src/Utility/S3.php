@@ -19,15 +19,15 @@ class S3
 
     public static function listDirectoryWithCache(string $s3ObjPrefix): array | null
     {
-        Log::debug("listDirectoryWithCache s3ObjPrefix=$s3ObjPrefix start");
+        //Log::debug("listDirectoryWithCache s3ObjPrefix=$s3ObjPrefix start");
         $cacheKey = self::CACHE_KEY_PREFIX . $s3ObjPrefix;
         $cachedResult = Cache::read($cacheKey);
 
         if(is_array($cachedResult)) {
-            Log::debug("listDirectoryWithCache s3ObjPrefix=$s3ObjPrefix cache hit");
+            Log::debug("listDirectoryWithCache cache hit s3ObjPrefix={$s3ObjPrefix}");
             return $cachedResult;
         }
-        Log::debug("listDirectoryWithCache s3ObjPrefix=$s3ObjPrefix cache miss");
+        Log::debug("listDirectoryWithCache cache miss s3ObjPrefix={$s3ObjPrefix}");
 
         $result = self::listDirectory($s3ObjPrefix);
         Cache::write($cacheKey, $result);
