@@ -1,5 +1,11 @@
 # ShareS3
-Share your files on Amazon S3 (or compatible one) with clients
+A web application to share your files on Amazon S3 (or compatible one) with clients.
+This app can be installed into your server.
+
+## Features
+- No database server is required
+- Subdirectory installation is available
+- Basic auth or some other authentication can be applied by configuring your web server (Apache, Nginx, etc...)
 
 ## Dependencies
 - PHP 8.1+
