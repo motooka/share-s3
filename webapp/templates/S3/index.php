@@ -68,10 +68,13 @@ function humanReadableBytes(int $bytes): string {
                 echo h($fileName);
                 echo ' (' . $sizeStr . ')';
                 if(stripos($key, '"') === false) {
+                    $url = \Cake\Routing\Router::url('/download/'.$key);
+                    $onclick = 'document.location.href='."'" . $url . "'";
+                    //echo $onclick;
                     echo ' ';
                     echo '<button'
                         .' data-key="' . $key . '"'
-                        .' onclick="document.location.href='."'/download/".$key."'".'"'
+                        .' onclick="' . $onclick . '"'
                         .'>Download</button>';
                 }
                 else {
